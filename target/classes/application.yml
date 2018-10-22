@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    #    数据源在applicat-dev内配置
+    #    发布时再使用加密密码载入数据源
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
+  resources:
+    static-locations: file:${deployment-properties.static-path}, classpath:static
+mybatis:
+  type-aliases-package: com.qk.trains.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+server:
+  port: 80
+pagehelper:
+  reasonable: true
+
+deployment-properties:
+  light-listening-port: 1803
+  pressure-listening-port: 1804
+  static-path: /usr/local/socket/DynamicResources/
+  image-save-path: DynamicResources/ImagesSave/

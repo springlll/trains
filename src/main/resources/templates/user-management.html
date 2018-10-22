@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lorvens-Bootstrap Admin Dashboard and UI kit</title>
+    <!-- Fav  Icon Link -->
+    <link rel="shortcut icon" type="image/png" href="../static/images/fav.png" th:href="@{/images/fav.png}">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.4.1.3.min.css" th:href="@{/css/bootstrap.4.1.3.min.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <!--Font Awesome CSS-->
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" href="../static/css/themify-icons.css" th:href="@{/css/themify-icons.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="../static/css/theme-blue.css" id="style_theme" th:href="@{/css/theme-blue.css}">
+    <link rel="stylesheet" href="../static/css/responsive.css" th:href="@{/css/responsive.css}">
+    <script src="../static/js/modernizr.min.js" th:src="@{/js/modernizr.min.js}"></script>
+    <style>
+        .signal-table {
+            line-height: 3.2;
+        }
+
+        .custom-table {
+            white-space: nowrap;
+        }
+
+        .custom-table tr, th {
+            font-size: 0.9em;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .custom-table input {
+            font-size: 0.8em;
+            max-width: 80px;
+            text-align: center;
+        }
+
+        .light-btn {
+            line-height: 1;
+            margin-bottom: 0px;
+        }
+
+        .pop-table {
+            background: #f0f0f0;
+            margin-bottom: 0px;
+            border-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+<!--/Pre Loader -->
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="common/nav::sidebar"></div>
+    <!-- /Sidebar -->
+    <!-- Page Content -->
+    <div id="content">
+        <!-- Top Navigation -->
+        <div th:replace="common/nav::header"></div>
+        <!-- /Top Navigation -->
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="index.html">
+                    <span class="ti-home"></span>
+                </a>
+            </li>
+            <li class="breadcrumb-item active">试风实时数据面板</li>
+        </ol>
+        <!-- /Breadcrumb -->
+        <!-- Main Content -->
+        <div class="container-fluid home">
+
+            <div class="row">
+                <!-- Widget Item -->
+            </div>
+        </div>
+        <!-- /Main Content -->
+    </div>
+    <!-- /Page Content -->
+</div>
+<!-- Back to Top -->
+<a id="back-to-top" href="#" class="back-to-top">
+    <span class="ti-angle-up fa fa-angle-up"></span>
+</a>
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<!-- Popper Library-->
+<script src="../static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script src="../static/js/bootstrap.4.1.3.min.js" th:src="@{/js/bootstrap.4.1.3.min.js}"></script>
+<!-- Highcharts Library-->
+<script src="../static/highcharts/highcharts.min.js" th:src="@{/highcharts/highcharts.min.js}"></script>
+<script src="../static/highcharts/highcharts-more.js" th:src="@{/highcharts/highcharts-more.js}"></script>
+<script src="../static/highcharts/highcharts-zh_CN.js" th:src="@{/highcharts/highcharts-zh_CN.js}"></script>
+<!-- Custom Script-->
+<script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>

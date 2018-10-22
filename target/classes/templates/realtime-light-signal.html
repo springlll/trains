@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Lorvens-Bootstrap Admin Dashboard and UI kit</title>
+<!-- Fav  Icon Link -->
+<link rel="shortcut icon" type="image/png"
+	href="../static/images/fav.png" th:href="@{/images/fav.png}">
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="../static/css/bootstrap.4.1.3.min.css"
+	th:href="@{/css/bootstrap.4.1.3.min.css}">
+<!-- Animations CSS -->
+<link rel="stylesheet" href="../static/css/animate.css"
+	th:href="@{/css/animate.css}">
+<!--Font Awesome CSS-->
+<link rel="stylesheet" href="../static/css/font-awesome.min.css"
+	th:href="@{/css/font-awesome.min.css}">
+<!-- themify icons CSS -->
+<link rel="stylesheet" href="../static/css/themify-icons.css"
+	th:href="@{/css/themify-icons.css}">
+<!-- Main CSS -->
+<link rel="stylesheet" href="../static/css/styles.css"
+	th:href="@{/css/styles.css}">
+<link rel="stylesheet" href="../static/css/theme-blue.css"
+	id="style_theme" th:href="@{/css/theme-blue.css}">
+<link rel="stylesheet" href="../static/css/responsive.css"
+	th:href="@{/css/responsive.css}">
+<script src="../static/js/modernizr.min.js"
+	th:src="@{/js/modernizr.min.js}"></script>
+<script>
+	   /* 轮询 */ 
+ 	/* setInterval(function() {
+ 		 window.location.href = 'realtime-light-signal';
+  	}, 5000)  */
+	/* 
+ 	 setInterval(function(){
+ 		$("tbody tr").remove();
+		 $.post("refresh-light-signal", function(data) {
+			  for(var i=0;i<data.length;i++){
+		$("tbody").append("<tr><td>"+data[i].track+"</td><td>"+data[i].train+"</td><td>"+data[i].position_s+"</td><td>"+data[i].operator_s+"</td><td>"+data[i].inPlaceTime_s+"</td><td>"+data[i].upSignalTime_s+"</td><td>"+data[i].downSignalTime_s+"</td><td>"+data[i].endTime_s+"</td><td>"+data[i].signalValue_s+"</td><td>"+data[i].position_n+"</td><td>"+data[i].operator_n+"</td><td>"+data[i].inPlaceTime_n+"</td><td>"+data[i].upSignalTime_n+"</td><td>"+data[i].downSignalTime_n+"</td><td>"+data[i].endTime_n+"</td><td>"+data[i].signalValue_n+"</td></tr>");
+			}   
+		})
+ 	 }, 5000);   */
+	
+</script>
+<style>
+.signal-table {
+	line-height: 3.2;
+}
+
+.custom-table {
+	white-space: nowrap;
+}
+
+.custom-table tr, th {
+	font-size: 0.9em;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.custom-table input {
+	font-size: 0.8em;
+	max-width: 80px;
+	text-align: center;
+}
+
+.light-btn {
+	line-height: 1;
+	margin-bottom: 0px;
+}
+
+.pop-table {
+	background: #f0f0f0;
+	margin-bottom: 0px;
+	border-color: #f0f0f0;
+}
+#acceleration_d{
+	color: red;
+}
+#acceleration_t{
+	color: green;
+}
+  .trainActivityId{
+	display: none;
+} 
+</style>
+</head>
+
+<body>
+	<!-- Pre Loader -->
+	<div class="loading">
+		<div class="spinner">
+			<div class="double-bounce1"></div>
+			<div class="double-bounce2"></div>
+		</div>
+	</div>
+	<!--/Pre Loader -->
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<div th:replace="common/nav::sidebar"></div>
+		<!-- /Sidebar -->
+		<!-- Page Content -->
+		<div id="content">
+			<!-- Top Navigation -->
+			<div th:replace="common/nav::header"></div>
+			<!-- /Top Navigation -->
+			<!-- Breadcrumb -->
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="index.html"> <span
+						class="ti-home"></span>
+				</a></li>
+				<li class="breadcrumb-item active">试风实时数据面板</li>
+			</ol>
+			<!-- /Breadcrumb -->
+			<!-- Main Content -->
+			<div class="container-fluid home">
+
+				<div class="row">
+					<!-- Widget Item -->
+					<div class="col-md-12">
+						<div class="widget-area-2 lorvens-box-shadow">
+							<h3 class="widget-title">信号灯实时数据</h3>
+							<div class="table-responsive">
+								<table id="dataTables"
+									class="table table-bordered table-hover custom-table signal-table">
+									<thead>
+										<tr class="bg-light" id="aaa">
+											<th>股道</th>
+											<th>车次</th>
+											<th>方位</th>
+											<th>作业者</th>
+											<th>到位</th>
+											<th>上信号</th>
+											<th>下信号</th>
+											<th>刷新时间</th>
+											<th>信号强度</th>
+											<th>灯状态</th>
+											<th>图片</th>
+											<th>方位</th>
+											<th>作业者</th>
+											<th>到位</th>
+											<th>上信号</th>
+											<th>下信号</th>
+											<th>刷新时间</th>
+											<th>信号强度</th>
+											<th>灯状态</th>
+											<th>图片</th>
+											<th>报警</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="track,trackStat : ${list}" >											
+											<td th:text="${track.track}" class='no'></td>
+											<!-- <td th:if="${track.train == ''}"><a th:href="@{train_Preservation(train=${track.track},trainActivityId=${track.trainActivityId})}"><input type="text" name="trainNum"></a></td> -->
+											<!-- id="trainNum_${trackStat.index}" onmouseout="mouseOut(this,'${track.trainActivityId}',1)" -->
+											<!-- 车次 -->
+											<td th:if="${track.train == ''}"><input type="text" name="trainNum" id="trainNum_${trackStat.index}" th:onblur="'mouseOut(this,'+${trackStat.index}+')' "/></td>
+											
+											<td th:if="${track.train != '' }"  th:text="${track.train}"></td>
+											<!-- 隐藏id -->
+
+											<!-- <td class="trainActivityId"  th:text="${track.trainActivityId}" id="actId_${trackStat.index}"></td>  -->
+											
+											<!-- 设备信息 -->
+											<!--  <td th:text="${track.position_s}"></td>
+											<td th:text="${track.operator_s}"></td>
+											<td th:text="${#dates.format(track.inPlaceTime_s,'HH:mm')}"></td>
+											<td th:text="${#dates.format(track.upSignalTime_s,'HH:mm')}"></td>
+											<td th:text="${#dates.format(track.downSignalTime_s,'HH:mm')}"></td>
+											<td th:text="${#dates.format(track.endTime_s,'HH:mm:ss')}"></td> 
+											<td th:text="${track.signalValue_s}"></td>
+											<td th:text="${track.position_n}"></td>
+											<td th:text="${track.operator_n}"></td>
+											<td th:text="${#dates.format(track.inPlaceTime_n,'HH:mm')}"></td>
+											<td th:text="${#dates.format(track.upSignalTime_n,'HH:mm')}"></td>
+											<td th:text="${#dates.format(track.downSignalTime_n,'HH:mm')}"></td>
+											<td th:text="${#dates.format(track.endTime_n,'HH:mm:ss')}"></td> 
+											<td th:text="${track.signalValue_n}"></td> -->
+											<!-- 加判断 -->
+											<td th:if="${track.position_n != null}"
+												th:text="${track.position_n}"></td>
+											<td th:if="${track.position_n == null}" th:text="无"></td>
+											<td th:if="${track.operator_n != null}"
+												th:text="${track.operator_n}"></td>
+											<td th:if="${track.operator_n == null}" th:text="无"></td>
+											<td th:if="${track.inPlaceTime_n != null}"
+												th:text="${#dates.format(track.inPlaceTime_n,'HH:mm')}"></td>
+											<td th:if="${track.inPlaceTime_n == null}" th:text="无"></td>
+											<td th:if="${track.upSignalTime_n != null}"
+												th:text="${#dates.format(track.upSignalTime_n,'HH:mm')}"></td>
+											<td th:if="${track.upSignalTime_n == null}" th:text="无"></td>
+											<td th:if="${track.downSignalTime_n != null}"
+												th:text="${#dates.format(track.downSignalTime_n,'HH:mm')}"></td>
+											<td th:if="${track.downSignalTime_n == null}" th:text="无"></td>
+											
+											<td th:if="${track.saveTime_n != null}"
+												th:text="${#dates.format(track.saveTime_n,'HH:mm:ss')}"></td>
+											<td th:if="${track.saveTime_n == null}" th:text="无"></td>
+											
+											<td th:if="${track.signalValue_n != null}"
+												th:text="${track.signalValue_n}"></td>
+											<td th:if="${track.signalValue_n == null}" th:text="无"></td>
+											<!-- 灯状态 -->
+											<td th:if="${track.lightSignal_n == 2}"
+												th:text="灯闪"></td>
+											<td th:if="${track.lightSignal_n == 0}" th:text="灯灭"></td>
+											<td th:if="${track.lightSignal_n == null}" th:text="无"></td>
+											
+											
+											<!-- 图片显示 -->
+											
+											<td th:if="${track.imageFiles_n == null}" th:text="无"></td>
+											<td th:else="${track.imageFiles_n != null}"><img height="50" width="66" th:src="@{'ImagesSave/'+${track.imageFiles_n}}"></td>
+											
+											<td th:if="${track.position_b != null}" th:text="${track.position_b}"></td>
+											<td th:if="${track.position_b == null}" th:text="无"></td>
+											<td th:if="${track.operator_b != null}"
+												th:text="${track.operator_b}"></td>
+											<td th:if="${track.operator_b == null}" th:text="无"></td>
+											<td th:if="${track.inPlaceTime_b != null}"
+												th:text="${#dates.format(track.inPlaceTime_b,'HH:mm')}"></td>
+											<td th:if="${track.inPlaceTime_b == null}" th:text="无"></td>
+											<td th:if="${track.upSignalTime_b != null}"
+												th:text="${#dates.format(track.upSignalTime_b,'HH:mm')}"></td>
+											<td th:if="${track.upSignalTime_b == null}" th:text="无"></td>
+											<td th:if="${track.downSignalTime_b != null}"
+												th:text="${#dates.format(track.downSignalTime_b,'HH:mm')}"></td>
+											<td th:if="${track.downSignalTime_b == null}" th:text="无"></td>
+											
+											
+											<td th:if="${track.saveTime_b != null}"
+												th:text="${#dates.format(track.saveTime_b,'HH:mm:ss')}"></td>
+											<td th:if="${track.saveTime_b == null}" th:text="无"></td>
+											<td th:if="${track.signalValue_b != null}"
+												th:text="${track.signalValue_b}"></td>
+											<td th:if="${track.signalValue_b == null}" th:text="无"></td>
+											<!-- 灯状态 -->
+											<td th:if="${track.lightSignal_b == 2}"
+												th:text="灯闪"></td>
+											<td th:if="${track.lightSignal_b == 0}" th:text="灯灭"></td>
+											<!-- <td th:if="${track.lightSignal_b == null}" th:text="无"></td> -->
+											
+											
+											<!-- 图片显示 -->
+											<td th:if="${track.imageFiles_b == null}" th:text="无"></td>
+											<td th:else="${track.imageFiles_b != null}"><img  height="50" width="66" th:src="@{'ImagesSave/'+${track.imageFiles_b}} "></td>
+											<td id="acceleration_d" th:if="${track.acceleration >= 6}" th:text="车动"></td>
+											<td id="acceleration_t" th:if="${track.acceleration < 6}" th:text="安全"></td>
+											<td><a th:href="@{light_Preservation(track=${track.track},trainActivityId=${track.trainActivityId})}"><input type="button" value="保存"></a></td>
+										</tr>
+								</table>
+							</div>
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /Main Content -->
+		</div>
+		<!-- /Page Content -->
+	</div>
+	<!-- Back to Top -->
+	<a id="back-to-top" href="#" class="back-to-top"> <span
+		class="ti-angle-up fa fa-angle-up"></span>
+	</a>
+	<!-- /Back to Top -->
+	<!-- Jquery Library-->
+	<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+	<!-- Popper Library-->
+	<script src="../static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+	<!-- Bootstrap Library-->
+	<script src="../static/js/bootstrap.4.1.3.min.js"
+		th:src="@{/js/bootstrap.4.1.3.min.js}"></script>
+	<!-- Highcharts Library-->
+	<script src="../static/highcharts/highcharts.min.js"
+		th:src="@{/highcharts/highcharts.min.js}"></script>
+	<script src="../static/highcharts/highcharts-more.js"
+		th:src="@{/highcharts/highcharts-more.js}"></script>
+	<script src="../static/highcharts/highcharts-zh_CN.js"
+		th:src="@{/highcharts/highcharts-zh_CN.js}"></script>
+	<!-- Custom Script-->
+	<script src="../static/js/nav.js" th:src="@{/js/nav.js}"></script>
+	
+	<script type="text/javascript">
+	
+	//列车号输入框鼠标移开触发事件
+	function mouseOut(tt,index){
+		//var c =document.getElementByNames("azx").value();//编号
+		var c=document.querySelectorAll("azx").innerText; 
+		alert(c);
+ 		var ccId = "trainNum_"+index;//动态拼接的也页面id
+		//alert("ccid:"+ccId);
+ 		//var x=${"trainNum_"+index}.value//列车号
+ 		//alert("列车号："+x);
+		//var actId = "actId_"+index;
+		//var y=document.getElementById(actId).value;//编号
+		//alert("列车号"+ccId+"编号"+actId);
+ 	 	//window.location.href="train_Preservation?train="+x+"&trainActivityId="+y;
+	}
+	
+	/* 
+	function updTrain(index){
+		index=document.getElementById("trainActivityId").value;
+		
+	}
+	 $("#trainNum").blur(function(){
+		 
+		 //输入的车次
+		 var x=document.getElementById("trainNum").value;
+		 //当前列编号
+		 var x=document.getElementById("trainActivityId").value;
+		
+		 alert("列车号"+x+"编号"+y);
+	 	 window.location.href="train_Preservation?train="+x+"&trainActivityId="+y;
+	 }) */
+	
+	 
+	/* $(function(){
+		 var peopleOptions;  
+			// 人口列表加载  
+			function tableItem() {  
+			    peopleOptions = {  
+			        method : "POST", // 使用get请求到服务器获取数据  
+			        url :"http://localhost:8018/realtime-light-signal", // 获取数据的地址  
+			        contentType : "application/x-www-form-urlencoded",// 重要否则POST会报错  
+			        striped : false, // 表格显示条纹  
+			        pagination : true, // 启动分页  
+			        pageSize : 10, // 每页显示的记录数  
+			        pageNumber : 1, // 当前第几页  
+			        pageList : [ 10, 20, 50 ], // 记录数可选列表  
+			        uniqueId : "id",  
+			        showColumns : false, // 显示下拉框勾选要显示的列  
+			        showToggle : false, // 显示 切换试图（table/card）按钮  
+			        clickToSelect : false, // 点击可选  
+			        singleSelect : false, // 禁止多选  
+			        maintainSelected : true, // 在点击分页按钮或搜索按钮时，将记住checkbox的选择项  
+			        sortable : true, // 禁止所有列的排序  
+			        sidePagination : "server", // 表示服务端请求 后台分页  
+			        toolbar : "#toolbar",// 指明自定义的toolbar  
+			        queryParamsType : "undefined",  
+			        /*queryParams : function queryParams(params) {  
+			            var param = {  
+			                pageNumber : params.pageNumber,  
+			                pageSize : params.pageSize,  
+			                orgId : ztreeId,  
+			                nodeId : ztreeId,  
+			                citizenName : $("#fullname").val().trim(),  
+			                sex : $("#sex").val(),  
+			                age : $("#age").val().trim(),  
+			                identityCode : $("#idCard").val().trim(),  
+			                cellPhone : $("#isMobile").val().trim(),  
+			                adress : $("#adress").val().trim(),  
+			            };  
+			            return param;  
+			        },  */
+			    /*     onLoadSuccess : function() { // 加载成功时执行  
+			            responseHandler : function(res) { // 格式化数据  
+			                console.log(res);  
+			                
+			            },  
+			            columns : [ {  
+			                checkbox : true,  
+			                title : '全选',  
+			                valign : 'middle'  
+			            }, {  
+			                title : '序号',  
+			                field : 'number',  
+			                width : '40px',  
+			                align : 'center',  
+			                valign : 'middle',  
+			                formatter : indexFormatter  
+			            }, {  
+			                title : '姓名',  
+			                field : 'citizenName',  
+			                align : 'center',  
+			                valign : 'middle',  
+			            },  {  
+			                title : '年龄',  
+			                field : 'age',  
+			                align : 'center',  
+			                width : 28,  
+			                valign : 'middle',  
+			                formatter : ageFormatter  
+			            }, {  
+			                title : '性别',  
+			                field : 'sex',  
+			                width : 28,  
+			                align : 'center',  
+			                valign : 'middle',  
+			            },{  
+			                title : '身份证号',  
+			                field : 'identityCode',  
+			                align : 'center',  
+			                valign : 'middle',  
+			            }, {  
+			                title : '民族',  
+			                field : 'nation',  
+			                align : 'center',  
+			                valign : 'middle',  
+			            } ]  
+			        }  
+			}  
+			    $table = $("#table").bootstrapTable(peopleOptions);  
+			};
+	});  */
+		
+		
+		function getColumns() {  
+		    // 加载动态表格  
+		    $.ajax({  
+		        url : path + "api/information/people/getLableColumn?ztreeId=" + ztreeId,  
+		        type : 'get',  
+		        dataType : "json",  
+		        async : false,  
+		        success : function(returnValue) {  
+		            // 未查询到相应的列，展示默认列  
+		            if (returnValue.retCode == "0") {  
+		                //没查到列的时候把之前的列再给它  
+		                myColumns = $table.bootstrapTable('getOptions').columns[0];  
+		            } else {  
+		                // 异步获取要动态生成的列  
+		                var arr = returnValue.data;  
+		                $.each(arr, function(i, item) {  
+		                    myColumns.push({  
+		                        "field" : item.labelColumnCode,  
+		                        "title" : item.labelColumnName,  
+		                        "hide" : true,  
+		                        "align" : 'center',  
+		                        "valign" : 'middle'  
+		                    });  
+		                });  
+		            }  
+		            console.log(myColumns);  
+		            return myColumns;  
+		        }  
+		    });  
+		}  
+	</script>
+</body>
+
+</html>

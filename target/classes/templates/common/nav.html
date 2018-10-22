@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<nav id="sidebar" class="lorvens-bg" th:fragment="sidebar">
+    <div class="sidebar-header">
+        <a href="index.html"><img class="logo" alt="logo" src="../static/images/logo.png" th:src="@{/images/logo.png}"></a>
+        <a href="index.html"><img class="minimal-logo" alt="logo" src="../static/images/minimal-logo.png" th:src="@{/images/minimal-logo.png}"></a>
+    </div>
+    <ul class="list-unstyled components">
+        <li class="nav-level-top">
+            <a href="/">
+                <span class="ti-home"></span> 主面板
+            </a>
+        </li>
+        <li class="nav-level-top">
+            <a href="#nav-uiKit" data-toggle="collapse" aria-expanded="false">
+                <span class="ti-dashboard"></span> 信号监测
+            </a>
+            <ul class="list-unstyled collapse" aria-expanded="true" id="nav-uiKit">
+                <li>
+                    <a href="/realtime-pressure">试风实时数据信号监测</a>
+                </li>
+                <li>
+                    <a href="/realtime-light-signal">信号灯数据监测</a>
+                </li>
+                <li>
+                    <a href="/history-data">历史数据</a>
+                   
+                </li>
+                <li>
+                 <a href="/data_s">数据查询</a>
+                 </li>
+            </ul>
+        </li>
+        <li class="nav-level-top">
+            <a href="#nav-charts" data-toggle="collapse" aria-expanded="false">
+                <span class="ti-list"></span> 监测选项
+            </a>
+            <ul class="collapse list-unstyled" id="nav-charts">
+                <li>
+                    <a href="/system-setting">系统设置</a>
+                </li>
+                <li>
+                    <a href="/device-regist">设备登记</a>
+                </li>
+                <li>
+                    <a href="/worker-management">人员设置</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-level-top">
+            <a href="#nav-maps" data-toggle="collapse" aria-expanded="false">
+                <span class="ti-settings"></span> 系统设置
+            </a>
+            <ul class="collapse list-unstyled" id="nav-maps">
+                <li>
+                    <a href="/user-management">用户管理</a>
+                </li>
+                <li>
+                    <a href="/auth-management">权限设置</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="nav-help animated fadeIn"><!--
+        <h6><span class="ti-mobile"></span> +86 123 4567 8901</h6>
+        <h6><span class="ti-email"></span> email@site.com</h6>-->
+        <p class="copyright-text">Copy rights &copy; 2018</p>
+    </div>
+</nav>
+
+<nav class="navbar navbar-default" th:fragment="header">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <i class="fa fa-bars" id="sidebarCollapse"></i>
+        </div>
+        <ul class="nav justify-content-end">
+            <!--<li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target=".lorvens-modal-lg">
+                    <span class="ti-search"></span>
+                </a>
+                <div class="modal fade lorvens-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lorvens">
+                        <div class="modal-content lorvens-box-shadow">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Serach Client/Project:</h5>
+                                <span class="ti-close" data-dismiss="modal" aria-label="Close">
+                                    </span>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="search-term" placeholder="Type text here">
+                                        <button type="button" class="btn btn-lorvens lorvens-bg">
+                                            <span class="ti-location-arrow"></span> Search
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>-->
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="ti-announcement"></span>
+                </a>
+                <div class="dropdown-menu lorvens-box-shadow notifications animated flipInY">
+                    <h5>Notifications</h5>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-comment-alt"></span> New User Registered</a>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-help-alt"></span> Client asked to send Quotaion</a>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-time"></span> Have schedule meeting today</a>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-comment-alt"></span> New User Registered</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="ti-layout-grid3-alt"></span>
+                </a>
+                <div class="dropdown-menu lorvens-box-shadow theme-picker animated flipInY theme-settings">
+                    <h5>Change Theme</h5>
+                    <a class="dropdown-item theme-color theme-default theme-active" href="#" data-color="theme-blue">
+                        <span class="ti-brush theme-color-blue">&emsp;&emsp;靛蓝&emsp;&emsp;<i class="fa fa-square"></i>&emsp;&emsp;<i class="fa fa-square theme-color-blue-2"></i></span></a>
+                    <a class="dropdown-item theme-color theme-green" href="#" data-color="theme-green">
+                        <span class="ti-brush theme-color-green">&emsp;&emsp;翠绿&emsp;&emsp;<i class="fa fa-square"></i>&emsp;&emsp;<i class="fa fa-square theme-color-green-2"></i></span></a>
+                    <a class="dropdown-item theme-color theme-red" href="#" data-color="theme-red">
+                        <span class="ti-brush theme-color-red">&emsp;&emsp;亮红&emsp;&emsp;<i class="fa fa-square"></i>&emsp;&emsp;<i class="fa fa-square theme-color-red-2"></i></span></a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="ti-user"></span>
+                </a>
+                <div class="dropdown-menu lorvens-box-shadow profile animated flipInY">
+                    <h5>管理员</h5>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-settings"></span>个人选项</a>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-help-alt"></span>帮助</a>
+                    <a class="dropdown-item" href="#">
+                        <span class="ti-power-off"></span>退出登录</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

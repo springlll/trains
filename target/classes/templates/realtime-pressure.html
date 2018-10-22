@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> - 试风实时数据面板</title>
+    <!-- Fav  Icon Link -->
+    <link rel="shortcut icon" type="image/png" href="../static/images/fav.png" th:href="@{/images/fav.png}">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../static/css/bootstrap.4.1.3.min.css" th:href="@{/css/bootstrap.4.1.3.min.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <!--Font Awesome CSS-->
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" href="../static/css/themify-icons.css" th:href="@{/css/themify-icons.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="../static/css/theme-blue.css" id="style_theme" th:href="@{/css/theme-blue.css}">
+    <link rel="stylesheet" href="../static/css/responsive.css" th:href="@{/css/responsive.css}">
+    <script src="../static/js/modernizr.min.js" th:src="@{/js/modernizr.min.js}"></script>
+    <style>
+        /*.signal-table {*/
+        /* line-height: 3.2;*/
+        /*}*/
+
+        .custom-table {
+            white-space: nowrap;
+        }
+
+        .custom-table tr, th {
+            font-size: 0.95em;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .custom-table input {
+            font-size: 0.9em;
+            max-width: 86px;
+            text-align: center;
+        }
+
+        .light-btn {
+            line-height: 1;
+            margin-bottom: 0px;
+        }
+
+        .pop-table {
+            background: #f0f0f0;
+            margin-bottom: 0px;
+            border-color: #f0f0f0;
+        }
+
+        .track-selected td {
+            background: #96e6ff;
+        }
+
+        .tr-hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+<!--/Pre Loader -->
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="common/nav::sidebar"></div>
+    <!-- /Sidebar -->
+    <!-- Page Content -->
+    <div id="content">
+        <!-- Top Navigation -->
+        <div th:replace="common/nav::header"></div>
+        <!-- /Top Navigation -->
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="index.html">
+                    <span class="ti-home"></span>
+                </a>
+            </li>
+            <li class="breadcrumb-item active">试风实时数据面板</li>
+        </ol>
+        <!-- /Breadcrumb -->
+        <!-- Main Content -->
+        <div class="container-fluid home">
+
+            <div class="row">
+                <!-- Widget Item -->
+                <div class="col-md-7">
+                    <div class="widget-area-2 lorvens-box-shadow" style="height: 95%">
+                        <h3 class="widget-title">试风实时数据</h3>
+                        <div class="table-responsive">
+                            <table id="dataTables" class="table table-striped table-bordered table-hover custom-table signal-table">
+                                <thead>
+                                <tr>
+                                    <th>股道</th>
+                                    <th>车次</th>
+                                    <th>试风性质</th>
+                                    <th>峰值</th>
+                                    <th>即时</th>
+                                    <th>试验方式</th>
+                                    <th>&emsp;&emsp;&ensp;信号状态&ensp;&emsp;&emsp;</th>
+                                    <th>信号性质</th>
+                                    <th>保存</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="track, trackStat : ${pressurePageData.tracks}" th:id="'track_tr_' + ${track}" th:attr="track = ${track}">
+                                    <td th:id="'track_td_' + ${track}" th:text="${track}">-</td>
+                                    <td th:id="'trainNumber_' + ${track}"><input type="text"/></td>
+                                    <td>
+                                        <select class="test-mode-select" th:onchange="'testModeChanged(this.value, '+${track}+')'" th:id="'testMode_' + ${track}" name="试风性质">
+                                            <option th:each="testMode, testModeStat : ${pressurePageData.testModes}" th:value="${testMode.id}" th:text="${testMode.name}"></option>
+                                        </select>
+                                    </td>
+                                    <td th:id="'pressurePeak_' + ${track}">-</td>
+                                    <td th:id="'pressureRealtime_' + ${track}">-</td>
+                                    <td>
+                                        <select th:id="'testType_' + ${track}" name="试验方式">
+                                            <option th:each="testType, testTypeStat : ${pressurePageData.testTypes}" th:value="${testType}" th:text="${testType}"></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button th:if="${pressurePageData.directions[0]}" class="btn btn-sm light-btn invisible light-info" data-toggle="popover"
+                                                th:attr="track = ${track}, directionName=${pressurePageData.directions[0]}" direction="0">东&ensp;
+                                            <a onclick=""><i class="fa fa-camera"></i></a>
+                                        </button>
+                                        <button th:if="${pressurePageData.directions[10]}" class="btn btn-sm light-btn invisible light-info" data-toggle="popover"
+                                                th:attr="track = ${track}, directionName=${pressurePageData.directions[10]}" direction="10">南&ensp;
+                                            <a onclick=""><i class="fa fa-camera"></i></a>
+                                        </button>
+                                        <button th:if="${pressurePageData.directions[40]}" class="btn btn-sm light-btn invisible light-info" data-toggle="popover"
+                                                th:attr="track = ${track}, directionName=${pressurePageData.directions[40]}" direction="40">中&ensp;
+                                            <a onclick=""><i class="fa fa-camera"></i></a>
+                                        </button>
+                                        <button th:if="${pressurePageData.directions[20]}" class="btn btn-sm light-btn invisible light-info" data-toggle="popover"
+                                                th:attr="track = ${track}, directionName=${pressurePageData.directions[20]}" direction="20">西&ensp;
+                                            <a onclick=""><i class="fa fa-camera"></i></a>
+                                        </button>
+                                        <button th:if="${pressurePageData.directions[30]}" class="btn btn-sm light-btn invisible light-info" data-toggle="popover"
+                                                th:attr="track = ${track}, directionName=${pressurePageData.directions[30]}" direction="30">北&ensp;
+                                            <a onclick=""><i class="fa fa-camera"></i></a>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <select th:id="'signalType_' + ${track}" name="信号性质">
+                                            <option th:each="signalType, signalTypeStat : ${pressurePageData.signalTypes}" th:value="${signalType}" th:text="${signalType}"></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button th:id="'save_' + ${track}" class="btn btn-sm btn-primary light-btn"><i class="fa fa-save"></i></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="widget-area-2 lorvens-box-shadow" style="height: 95%">
+                        <h3 id="chartTitle" class="widget-title pull-left">试风数据图</h3>
+                        <p class="pull-right">股道: <span id="pressureShowingTrack">未选中</span>&emsp;&ensp;设备号: <span id="pressureShowingMachineNumber">无</span>&emsp;电压: <span
+                                id="pressureShowingVoltage">0</span>&ensp;V</p>
+                        <div class="pressure-chart-contain">
+                            <div id="pressureChart"></div>
+                        </div>
+                        <h3 class="widget-title pull-left">试验数据</h3>
+                        <p class="pull-right">
+                            实时值:&ensp;<span id="pressureShowingPressure">0</span>&ensp;kPa&emsp;&emsp;<button class="btn btn-sm btn-primary light-btn">开始试验</button>
+                        </p>
+                        <div class="table-responsive">
+                            <table id="pressureTable" class="table table-bordered table-hover custom-table">
+                                <thead>
+                                <tr>
+                                    <th>项目</th>
+                                    <th>主管(kPa)</th>
+                                    <th>保压(秒)</th>
+                                    <th>减压(kPa)</th>
+                                    <th>泄露(kPa)</th>
+                                    <th>试验(秒)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="break-test-tr" th:each="breakTest, breakTestStat : ${pressurePageData.breakTests}" th:attr="break-test-id=${breakTest.id}">
+                                    <td th:text="${breakTest.name}">-</td>
+                                    <td>600</td>
+                                    <td th:text="${breakTest.testTime}">-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Main Content -->
+    </div>
+    <!-- /Page Content -->
+</div>
+<!-- Back to Top -->
+<a id="back-to-top" href="#" class="back-to-top">
+    <span class="ti-angle-up fa fa-angle-up"></span>
+</a>
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<!-- Popper Library-->
+<script src="../static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script src="../static/js/bootstrap.4.1.3.min.js" th:src="@{/js/bootstrap.4.1.3.min.js}"></script>
+<!-- Highcharts Library-->
+<script src="../static/highcharts/highcharts.min.js" th:src="@{/highcharts/highcharts.min.js}"></script>
+<script src="../static/highcharts/highcharts-more.js" th:src="@{/highcharts/highcharts-more.js}"></script>
+<script src="../static/highcharts/highcharts-zh_CN.js" th:src="@{/highcharts/highcharts-zh_CN.js}"></script>
+<!-- Custom Script-->
+
+<script src="../static/js/custom.js" th:src="@{/js/custom.js}"></script>
+<script th:inline="javascript">
+    var completed = false;
+    // thymeleaf深坑，此处传入页面数据，th:inline不能少
+    $().ready(function () {
+        /*<![CDATA[*/
+        var ppd = [[${pressurePageData}]];
+        /*]]>*/
+        initParam(ppd);
+        completed = true;
+    });
+
+    function testModeChanged(id, track) {
+        if (completed) {
+            reloadBreakTests(id, track);
+        }
+        else {
+            setTimeout(function () {
+                reloadBreakTests(id, track);
+            }, 1000);
+        }
+    }
+</script>
+</body>
+
+</html>

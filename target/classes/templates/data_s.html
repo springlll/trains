@@ -27,6 +27,16 @@
   $(function() {
     $( "#datepicker" ).datepicker();
   });
+  
+  function listTime(){
+	  
+	  alert("a");
+	  var
+
+  }
+  
+  
+  
   </script>
     <style>
         .signal-table {
@@ -116,9 +126,11 @@
 						<table>
 							<tr>
 							<td>到位时间</td>
+							<form method="post" action="/admin/data_s2">
 							<td>
-							<input type="date" onclick="MyDatePick()" />
-							<input type="date" onclick="MyDatePick({fmt:'datetime'})" />
+							<input type="date" onclick="MyDatePick()" th:text="${Startdate}"/>
+							<input type="date" onclick="MyDatePick({fmt:'datetime'})"  th:text="${Enddate}"/>
+         			 		<td><input type="submit" value="查询" th:onclick=" 'javascript:listTime('+${Startdate}+${Enddate}+')' "></td>
          			 		 </td>
          			 		 <td>
          			 		 </td>  			 		
@@ -137,7 +149,7 @@
 							</tr>
 							<tr class="tr_">
 							<td><input type="submit" value="查看图片"></td>
-							<td><input type="submit" value="查询"></td>
+							
 							<td><input type="submit" value="关闭"></td>
 						
 							</tr>
@@ -156,9 +168,9 @@
 										</tr>
 										<tr th:each ="lightActivity:${lightActivity}" th:value="${lightActivity}">
 						 			   
-						 			    <td th:text="${lightActivity.inPlaceTime}"></td>
-						         		<td th:text = "${lightActivity.upSignalTime}"></td>					           
-						                 <td th:text = "${lightActivity.downSignalTime}"></td>					             
+						 			    <td th:text="${#dates.format(lightActivity.inPlaceTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						         		<td th:text = "${#dates.format(lightActivity.upSignalTime,'yyyy-MM-dd HH:mm:ss')}"></td>					           
+						                 <td th:text = "${#dates.format(lightActivity.downSignalTime,'yyyy-mm-dd hh:mm:ss')}"></td>					             
 						                 <td th:text = "${lightActivity.operator}"></td>				   
 						                 <td th:text = "${lightActivity.trainActivityId}"></td>
    							       		 <td th:text = "${lightActivity.imei10}"></td>

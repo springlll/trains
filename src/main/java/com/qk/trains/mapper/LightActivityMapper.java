@@ -4,6 +4,7 @@ import com.qk.trains.entity.LightActivity;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -197,4 +198,16 @@ public interface LightActivityMapper {
 	@Select("SELECT * FROM light_activity WHERE imei_10 = #{imei10} AND activity=1 ORDER BY in_place_time DESC LIMIT 1")
 	@ResultType(LightActivity.class)
 	LightActivity getActivity(@Param("imei10") String imei10);
+	/*
+	 * 根据时间查询
+	 */
+	@Select("SELECT * FROM light_activity  WHERE in_place_time BETWEEN #{Startdate} AND #{Enddate} ")
+	@ResultType(LightActivity.class)
+	List<LightActivity> listTime(@Param("Startdate") Date startdate,@Param("Enddate")Date enddate);
+	
+	
+	
+	@Select("SELECT * FROM light_activity  WHERE in_place_time BETWEEN #{worker} ")
+	@ResultType(LightActivity.class)
+	List<LightActivity> listWorker(@Param("Worker") String worker);
 }

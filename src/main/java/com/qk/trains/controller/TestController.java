@@ -41,6 +41,7 @@ import javax.servlet.http.HttpSession;
  * @author: Xiaotian
  * @create: 2018-08-24 11:20
  **/
+@RequestMapping("/admin")
 @Controller
 public class TestController {
 
@@ -125,7 +126,7 @@ public class TestController {
 		List<Worker> worker = workerService.getAllDevice();
 			
 		model.addAttribute("worker",worker);
-		System.out.println("worker"+worker);	
+		//System.out.println("worker"+worker);	
 		}
 		catch(Exception e){
 			System.out.println("没找到");
@@ -133,18 +134,33 @@ public class TestController {
 		List<LightActivity> lightActivity = trainActivityService.getAllLightActivity();
 		request.setAttribute("lightActivity", lightActivity);
 		model.addAttribute(lightActivity);
-		System.out.println(lightActivity);		
+		//System.out.println(lightActivity);		
 		return "data_s";
 	}
 	
 	
 	
-	@RequestMapping("/data_s1")
-	public String dataAll(Model model ,HttpServletRequest request){
+	@RequestMapping("/data_s2")
+/*	public String dataAll(Model model ,HttpServletRequest request){
 
-
+			model.addAttribute(attributeValue)
 		//	System.out.println("获取异常");
-			return "data_s";
+			return TrainActivityService.getlistTime();*/
+			
+			@ResponseBody
+			public String getallTime(Date Startdate,Date Enddate) {
+				List<LightActivity> dates = trainActivityService.getlistTime( Startdate, Enddate);
+				Map map = new HashMap();
+				if(map!=null&&map.size()>0){
+				map.put("Startdate", dates.get(0).getInPlaceTime());
+				map.put("Enddate", dates.get(0).getInPlaceTime());
+				
+				}else{
+					System.out.println("无数据");
+				}
+				System.out.println(dates);
+				return "data_s";
+			
 			}
 
 	

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,17 @@ public class TrainActivityService {
 		return lightActivityMapper.listAll();
 		
 	}	
+	
+	/**
+	 * 根据时间查询
+	 *
+	 * @return 列表
+	 */	
+	@Cacheable(cacheNames = "light_activity")
+	public    List<LightActivity> getlistTime(Date Startdate,Date Enddate) {
+		return lightActivityMapper.listTime(Startdate,Enddate);
+		
+	}		
 	/**
 	 * 更新信号灯数据
 	 *
